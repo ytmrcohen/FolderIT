@@ -1,0 +1,123 @@
+body {
+    background-color: #e8edd8;
+}
+
+h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    color: darkgreen;
+}
+
+.showbox {
+    border-radius: 5px;
+}
+.showboxlog {
+    border-radius: 5px;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+
+.signupbox {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 40px;
+    border: 2px solid #d2c8b2;
+    border-radius: 20px;
+    background-color: #f5f2e8;
+    color: #4b3d33;
+}
+
+.signupbox input {
+    padding: 8px;
+    border: 1px solid #c8c1b4;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #4b3d33;
+}
+
+.signupbox input:focus {
+    border-color: #b8aa9a;
+    outline: none;
+}
+
+.signupbox button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #7aa6c7;   /* צבע כפתור חדש */
+    color: #fdfdfd;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.signupbox button:hover {
+    background-color: #6792b5;
+}
+
+.signupbox button:active {
+    background-color: #4f7b9f;
+}
+
+.signinbox {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 40px;
+    border: 2px solid #d2c8b2;
+    border-radius: 20px;
+    background-color: #f5f2e8;
+    color: #4b3d33;
+}
+
+.signinbox input {
+    padding: 8px;
+    border: 1px solid #c8c1b4;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #4b3d33;
+}
+
+.signinbox input:focus {
+    border-color: #b8aa9a;
+    outline: none;
+}
+
+.signinbox button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #7aa6c7;   /* צבע כפתור חדש */
+    color: #fdfdfd;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.signinbox button:hover {
+    background-color: #6792b5;
+}
+
+.signinbox button:active {
+    background-color: #4f7b9f;
+}
