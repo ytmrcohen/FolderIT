@@ -41,6 +41,7 @@ async function uploadFile() {
 
     alert("הקובץ הועלה ונשמר!");
     loadFiles();
+}
 loadFiles();
     
 async function loadFiles() {
@@ -92,7 +93,7 @@ async function searchFiles() {
     });
 }
 
-#variables_of_login_and_sign_up_boxes    
+ 
 const Confirmsignup = document.getElementById("savebutton");
 const signup = document.getElementById("passwordinput");
 
@@ -103,7 +104,7 @@ const result = document.getElementById("result");
 const Show = document.getElementById("showbox");
 const Showlog = document.getElementById("showboxlog");
 
-#reveals_the_login_and_signup_boxes_on_button_press   
+ 
 Show.addEventListener("click", () => {
     signupbox.style.display = "flex";
 });
@@ -111,7 +112,7 @@ Showlog.addEventListener("click", () => {
     signinbox.style.display = "flex";
 });
 
-#gets_user_password_in_signup
+
 let userPassword = "";
 
 Confirmsignup.addEventListener("click", function() {
@@ -119,7 +120,7 @@ Confirmsignup.addEventListener("click", function() {
     result.textContent = "Signup completed succesfully";
 });
 
-#checks_in_login_if_it_matches_the_signup
+
 Confirmlogin.addEventListener("click", function() {
     const signinValue = signin.value.trim();
 
@@ -131,5 +132,6 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
 
 
