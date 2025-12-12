@@ -1,3 +1,47 @@
+const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
+const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+async function uploadFile() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+    if (!file) return alert("בחר קובץ");
+
+    const filePath = `${Date.now()}_${file.name}`;
+
+    // העלאה ל-Bucket
+    const { data, error } = await supabase.storage
+        .from("FolderD")
+        .upload(filePath, file);
+
+    if (error) {
+        console.error(error);
+        alert("שגיאה בהעלאה");
+        return;
+    }
+
+    // קבלת URL ציבורי
+    const { data: publicUrl } = supabase.storage
+        .from("FolderD")
+        .getPublicUrl(filePath);
+
+    // שמירת הרשומה בטבלה
+    const { error: insertError } = await supabase
+        .from("files")
+        .insert({
+            name: file.name,
+            url: publicUrl.publicUrl
+        });
+
+    if (insertError) {
+        console.error(insertError);
+        alert("שגיאה בשמירת הרשומה");
+        return;
+    }
+
+    alert("הקובץ הועלה ונשמר!");
+    loadFiles();
+    
 #variables_of_login_and_sign_up_boxes    
 const Confirmsignup = document.getElementById("savebutton");
 const signup = document.getElementById("passwordinput");
@@ -37,3 +81,4 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
