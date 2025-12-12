@@ -41,7 +41,57 @@ async function uploadFile() {
 
     alert("הקובץ הועלה ונשמר!");
     loadFiles();
+loadFiles();
     
+async function loadFiles() {
+    const { data, error } = await supabase
+        .from("files")
+        .select("*")
+        .order("id", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const container = document.getElementById("filesList");
+    container.innerHTML = "";
+
+    data.forEach(file => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <p>${file.name}</p>
+            <a href="${file.url}" target="_blank">הורדה</a>
+            <hr>
+        `;
+        container.appendChild(div);
+    });
+}
+
+async function searchFiles() {
+    const text = document.getElementById("search").value;
+
+    const { data, error } = await supabase
+        .from("files")
+        .select("*")
+        .ilike("name", `%${text}%`);
+
+    if (error) return console.error(error);
+
+    const container = document.getElementById("filesList");
+    container.innerHTML = "";
+
+    data.forEach(file => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <p>${file.name}</p>
+            <a href="${file.url}" target="_blank">הורדה</a>
+            <hr>
+        `;
+        container.appendChild(div);
+    });
+}
+
 #variables_of_login_and_sign_up_boxes    
 const Confirmsignup = document.getElementById("savebutton");
 const signup = document.getElementById("passwordinput");
@@ -81,4 +131,5 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
 
