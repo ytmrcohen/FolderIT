@@ -3,18 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="FolderIT_Style.css">
-        
         <title>FolderIT</title>
     </head>
     <body>
-        <header class="header">
-        <h1 class="h1">FolderIT</h1>
+        <header class="header"> 
+        <div class="header-spacer"></div>
 
-        <div>
-            <button id="showbox">Sign up</button>
-            <button id="showboxlog">Log in</button>
-        </div>
-        
+        <h1 class="logo"><img src="FolderITimageCopy.png" alt="FolderIT"></h1>
+
+            <div class="header-actions">
+                <button id="showBoxSign" class="signAndLog">Sign up</button>
+                <button id="showBoxLog" class="signAndLog">Log in</button>
+            </div>
         </header>
         
         <input type="file" id="fileInput">
@@ -22,24 +22,22 @@
         <div id="filesList"></div>
         <input type="text" id="search" placeholder="חפש..." oninput="searchFiles()">
 
-        <div id="signupbox" class="signupbox" style="display: none">
-            <p class="p">signup</p>
-            <input type="text" id="passwordinput" placeholder="Enter password">
-            <button id="savebutton">save</button>
+        <p id="signLogSave">Conrugrulations you signed up</p>
+        <div id="signUpBox" class="signUpBox" style="display: none;">
+            <p>Sign up</p>
+            <input type="text" id="passwordInputSign" placeholder="Enter password">
+            <button id="saveButtonSign">save</button>
         </div>
 
-        <div id="signinbox" class="signinbox" style="display: none">
-            <p>signin</p>
-            <p id="result"></p>
-            <input type="text" id="passwordinputlog" placeholder="Enter password">
-            <button id="savebuttonlog">save</button>
+        <div id="logInBox" class="logInBox" style="display: none;">
+            <p>Log in</p>
+            <input type="text" id="passwordInputLog" placeholder="Enter password">
+            <button id="saveButtonLog">save</button>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+        <div id="overlay"></div>
+        <p id="result"></p>
+
         <script src="FolderIT.js"></script>
     </body>
-
 </html>
-
-
-
-
