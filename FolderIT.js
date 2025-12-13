@@ -1,6 +1,6 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
 const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = supabase.createClient(https://owdtllwewggvaleevyvy.supabase.co, sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R);
 
 async function uploadFile() {
     const fileInput = document.getElementById("fileInput");
@@ -132,6 +132,7 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
 
 
 
