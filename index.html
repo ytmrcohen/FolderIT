@@ -3,64 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מערכת העלאת קבצים</title>
-    
-    <link rel="stylesheet" href="style.css"> 
-    
+    <title>FolderIT</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <div class="container">
-        <h2>מערכת ניהול והעלאת קבצים</h2>
-        <div id="result"></div> 
-        
-        <h3>כניסה והרשמה (לא מאובטח - דורש שינוי ל-Supabase Auth)</h3>
-        <button id="showBoxSign">הרשמה</button>
-        <button id="showBoxLog">כניסה</button>
-        <p id="signLogSave" style="display: block; font-weight: bold; margin-top: 10px;">Sign up / Log in</p>
-        
-        <hr>
+<header class="header">
+    <div class="header-spacer"></div>
+    <h1 class="logo">FolderIT</h1>
+    <div class="header-actions">
+        <button id="showBoxSign" class="signAndLog">Sign up</button>
+        <button id="showBoxLog" class="signAndLog">Log in</button>
+    </div>
+</header>
 
-        <h3>העלאת קובץ חדש</h3>
-        <input type="file" id="fileInput">
-        <button onclick="uploadFile()">העלה קובץ</button>
-        
-        <hr>
+<p id="signLogSave"></p>
 
-        <h3>חיפוש קבצים</h3>
-        <input type="text" id="search" placeholder="חפש לפי שם קובץ...">
-        <button onclick="searchFiles()">חפש</button>
+<div class="container">
+    <h2>העלאת קבצים</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">העלה קובץ</button>
 
-        <hr>
+    <hr>
 
-        <h3>רשימת הקבצים:</h3>
-        <div id="filesList">
-            טוען קבצים...
-        </div>
+    <input type="text" id="search" placeholder="חיפוש לפי שם">
+    <button onclick="searchFiles()">חפש</button>
 
+    <h3>רשימת קבצים</h3>
+    <div id="filesList">טוען...</div>
+</div>
+
+<div id="overlay">
+    <div id="signUpBox" class="modal">
+        <h3>Sign up</h3>
+        <input type="password" id="passwordInputSign" placeholder="סיסמה">
+        <button id="saveButtonSign">שמור</button>
     </div>
 
-    <div id="overlay" style="display: none;">
-        
-        <div id="signUpBox" class="modal-box">
-            <h4>הרשמה (Sign Up)</h4>
-            <input type="password" id="passwordInputSign" placeholder="הכנס סיסמה">
-            <button id="saveButtonSign">שמור והרשם</button>
-        </div>
-
-        <div id="logInBox" class="modal-box">
-            <h4>כניסה (Log In)</h4>
-            <input type="password" id="passwordInputLog" placeholder="הכנס סיסמה">
-            <button id="saveButtonLog">התחבר</button>
-        </div>
-
+    <div id="logInBox" class="modal">
+        <h3>Log in</h3>
+        <input type="password" id="passwordInputLog" placeholder="סיסמה">
+        <button id="saveButtonLog">התחבר</button>
     </div>
+</div>
 
-    <script src="FolderIT.js"></script>
-
+<script src="FolderIT.js"></script>
 </body>
 </html>
+
 
 
 
