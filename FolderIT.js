@@ -1,6 +1,9 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
 const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
 
 async function uploadFile() {
     const fileInput = document.getElementById("fileInput");
@@ -10,7 +13,7 @@ async function uploadFile() {
     const filePath = `${Date.now()}_${file.name}`;
 
     // העלאה ל-Bucket
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabaseClient.storage
         .from("Folders")
         .upload(filePath, file);
 
@@ -21,12 +24,12 @@ async function uploadFile() {
     }
 
     // קבלת URL ציבורי
-    const { data: publicUrl } = supabase.storage
+    const { data: publicUrl } = supabaseClient.storage
         .from("Folders")
         .getPublicUrl(filePath);
 
     // שמירת הרשומה בטבלה
-    const { error: insertError } = await supabase
+    const { error: insertError } = await supabaseClient
         .from("FolderD")
         .insert({
             name: file.name,
@@ -45,7 +48,7 @@ async function uploadFile() {
 loadFiles();
     
 async function loadFiles() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("FolderD")
         .select("*")
         .order("id", { ascending: false });
@@ -72,7 +75,7 @@ async function loadFiles() {
 async function searchFiles() {
     const text = document.getElementById("search").value;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from("FolderD")
         .select("*")
         .ilike("name", `%${text}%`);
@@ -143,6 +146,7 @@ saveButtonLog.addEventListener("click", function() {
         signLogSave.textContent = "Wrong Username or Password";
     }
 });
+
 
 
 
