@@ -1,39 +1,31 @@
+/* יש לשמור את זה כ-style.css או לשלב את זה בקטע <style> ב-HTML */
+
 body {
     background-color: #e8edd8;
+    margin: 0; /* כדי למנוע גלילה לא רצויה */
 }
-.header {
+
+/* סגנונות כלליים */
+.container {
+    max-width: 800px;
+    margin: 20px auto; /* מרכוז */
+    padding: 20px;
+    background-color: white;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #f2f2f2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.header-spacer,
-.header-actions {
-    flex: 1;
-}
-.header-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
+
+/* ה-ID שמציג הודעות לאחר כניסה/הרשמה */
 #signLogSave {
-    display: none;
+    display: none; /* ה-JS שולט בזה */
     font-size: 25px;
-    font-weight: 700px;
+    font-weight: bold; /* שינוי מ-700px ל-bold */
     text-align: center;
-    left: 50%;
-    right: 50%;
     color: darkgreen;
+    margin: 20px 0;
 }
-.logo {
-    margin: 0;
-}
-.logo img {
-    height: 60px;
-    width: auto;
-    display: block;
-}
+
+/* כפתורי הרשמה/כניסה */
 .signAndLog {
     padding: 10px;
     border: none;
@@ -44,76 +36,60 @@ body {
     font-weight: bold;
     transition: 0.2s;
 }
-.signUpBox {
-    z-index: 10;
-    display: flex;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    gap: 10px;
-    padding: 40px;
-    border: 2px solid #d2c8b2;
-    border-radius: 20px;
-    background-color: #f5f2e8;
-    color: #4b3d33;
-}
-.signUpBox input {
-    padding: 8px;
-    border: 1px solid #c8c1b4;
-    background-color: #fff;
-    border-radius: 6px;
-}
-.signUpBox button {
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background-color: #7aa6c7;
-    color: #fdfdfd;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
-.logInBox {
-    z-index: 10;
-    display: flex;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    gap: 10px;
-    padding: 40px;
-    border: 2px solid #d2c8b2;
-    border-radius: 20px;
-    background-color: #f5f2e8;
-    color: #4b3d33;
-}
-.logInBox input {
-    padding: 8px;
-    border: 1px solid #c8c1b4;
-    background-color: #fff;
-    border-radius: 6px;
-}
-.logInBox button {
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background-color: #7aa6c7;
-    color: #fdfdfd;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
-}
+
+/* ה-Overlay (טשטוש רקע) */
 #overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(0.1px);
-    background: rgba(0, 0, 0, 0.3);
-    display: none;
+    backdrop-filter: blur(2px); /* הגדלתי את הטשטוש לראות טוב יותר */
+    background: rgba(0, 0, 0, 0.4);
+    display: none; /* ה-JS שולט בזה */
     z-index: 5;
+    /* מרכוז תכולה */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+/* חלון הרשמה (משתמש ב-ID) */
+#signUpBox,
+#logInBox {
+    z-index: 10;
+    display: none; /* ה-JS שולט בזה. אם הוא פתוח, יהיה 'flex' */
+    position: absolute; /* יש לשנות ל-relative או לשנות את ה-top/left אם משתמשים ב-flex ב-overlay */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    gap: 10px;
+    padding: 40px;
+    border: 2px solid #d2c8b2;
+    border-radius: 20px;
+    background-color: #f5f2e8;
+    color: #4b3d33;
+}
+
+/* קלט בחלונות מודאליים */
+#signUpBox input,
+#logInBox input {
+    padding: 8px;
+    border: 1px solid #c8c1b4;
+    background-color: #fff;
+    border-radius: 6px;
+}
+
+/* כפתורים בחלונות מודאליים */
+#signUpBox button,
+#logInBox button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #7aa6c7;
+    color: #fdfdfd;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
 }
