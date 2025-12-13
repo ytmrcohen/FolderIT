@@ -2,43 +2,20 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מערכת העלאת קבצים</title>
-    <link rel="stylesheet" href="style.css"> <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-    <style>
-        /* CSS מינימלי להצגת החלונות המודאליים כפי שמתואר ב-JS */
-        body { margin: 20px; font-family: Arial, sans-serif; }
-        .container { max-width: 800px; margin: 0 auto; }
-        
-        /* סגנונות למערכת הכניסה/הרשמה המודאלית */
-        #overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none; /* מוסתר כברירת מחדל */
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-        .modal-box {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none; /* מוסתר כברירת מחדל */
-            flex-direction: column;
-            gap: 10px;
-            z-index: 20;
-        }
-        .modal-box input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        .modal-box button { padding: 10px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
-    </style>
+    
+    <link rel="stylesheet" href="style.css"> 
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <div class="container">
         <h2>מערכת ניהול והעלאת קבצים</h2>
-        <div id="result"></div> <h3>כניסה והרשמה</h3>
+        <div id="result"></div> 
+        
+        <h3>כניסה והרשמה (לא מאובטח - דורש שינוי ל-Supabase Auth)</h3>
         <button id="showBoxSign">הרשמה</button>
         <button id="showBoxLog">כניסה</button>
         <p id="signLogSave" style="display: block; font-weight: bold; margin-top: 10px;">Sign up / Log in</p>
