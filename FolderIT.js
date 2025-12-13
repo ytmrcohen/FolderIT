@@ -1,6 +1,6 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
 const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 async function uploadFile() {
     const fileInput = document.getElementById("fileInput");
@@ -143,6 +143,7 @@ saveButtonLog.addEventListener("click", function() {
         signLogSave.textContent = "Wrong Username or Password";
     }
 });
+
 
 
 
