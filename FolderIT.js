@@ -1,156 +1,106 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
-const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
-// *** התיקון הקריטי: שימוש ב-window.supabase לפתרון שגיאת ה-ReferenceError ***
+const supabaseKey = "PASTE_YOUR_PUBLIC_KEY_HERE";
+
 const supabaseClient = window.supabase.createClient(
     supabaseUrl,
     supabaseKey
 );
 
+const overlay = document.getElementById("overlay");
+const signUpBox = document.getElementById("signUpBox");
+const logInBox = document.getElementById("logInBox");
+const signLogSave = document.getElementById("signLogSave");
+
+let userPassword = "";
+
+// פתיחת חלונות
+showBoxSign.onclick = () => {
+    overlay.style.display = "flex";
+    signUpBox.style.display = "flex";
+};
+
+showBoxLog.onclick = () => {
+    overlay.style.display = "flex";
+    logInBox.style.display = "flex";
+};
+
+saveButtonSign.onclick = () => {
+    userPassword = passwordInputSign.value.trim();
+    overlay.style.display = "none";
+    signUpBox.style.display = "none";
+    signLogSave.textContent = "נרשמת בהצלחה";
+    signLogSave.style.display = "block";
+};
+
+saveButtonLog.onclick = () => {
+    overlay.style.display = "none";
+    logInBox.style.display = "none";
+
+    if (passwordInputLog.value === userPassword) {
+        signLogSave.textContent = "התחברת בהצלחה";
+    } else {
+        signLogSave.textContent = "סיסמה שגויה";
+    }
+    signLogSave.style.display = "block";
+};
+
+overlay.onclick = () => {
+    overlay.style.display = "none";
+    signUpBox.style.display = "none";
+    logInBox.style.display = "none";
+};
+
 async function uploadFile() {
-    const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     if (!file) return alert("בחר קובץ");
 
-    const filePath = `${Date.now()}_${file.name}`;
+    const path = `${Date.now()}_${file.name}`;
 
-    // העלאה ל-Bucket
-    const { data, error } = await supabaseClient.storage
+    const { error } = await supabaseClient.storage
         .from("Folders")
-        .upload(filePath, file);
+        .upload(path, file);
 
-    if (error) {
-        console.error("שגיאת העלאה ל-Storage:", error);
-        alert("שגיאה בהעלאה. בדוק את ה-Policies ב-Storage.");
-        return;
-    }
+    if (error) return alert("שגיאה בהעלאה");
 
-    // קבלת URL ציבורי
-    const { data: publicUrl } = supabaseClient.storage
+    const { data } = supabaseClient.storage
         .from("Folders")
-        .getPublicUrl(filePath);
+        .getPublicUrl(path);
 
-    // שמירת הרשומה בטבלה
-    const { error: insertError } = await supabaseClient
+    await supabaseClient
         .from("FolderD")
-        .insert({
-            name: file.name,
-            url: publicUrl.publicUrl
-        });
+        .insert({ name: file.name, url: data.publicUrl });
 
-    if (insertError) {
-        console.error("שגיאת שמירת רשומה ב-Database:", insertError);
-        alert("שגיאה בשמירת הרשומה. בדוק את ה-RLS Policies בטבלה FolderD.");
-        return;
-    }
-
-    alert("הקובץ הועלה ונשמר בהצלחה!");
     loadFiles();
 }
 
-// קריאה ראשונית לטעינת הקבצים עם טעינת הדף
-loadFiles();
-    
 async function loadFiles() {
-    const { data, error } = await supabaseClient
+    const { data } = await supabaseClient
         .from("FolderD")
         .select("*")
         .order("id", { ascending: false });
 
-    if (error) {
-        console.error("שגיאת טעינת קבצים:", error);
-        return;
-    }
-
-    const container = document.getElementById("filesList");
-    container.innerHTML = "";
-
-    data.forEach(file => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <p>${file.name}</p>
-            <a href="${file.url}" target="_blank">הורדה</a>
-            <hr>
-        `;
-        container.appendChild(div);
+    filesList.innerHTML = "";
+    data.forEach(f => {
+        filesList.innerHTML += `<p>${f.name} — <a href="${f.url}" target="_blank">פתח</a></p>`;
     });
 }
 
 async function searchFiles() {
-    const text = document.getElementById("search").value;
+    const text = search.value;
 
-    const { data, error } = await supabaseClient
+    const { data } = await supabaseClient
         .from("FolderD")
         .select("*")
         .ilike("name", `%${text}%`);
 
-    if (error) return console.error(error);
-
-    const container = document.getElementById("filesList");
-    container.innerHTML = "";
-
-    data.forEach(file => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <p>${file.name}</p>
-            <a href="${file.url}" target="_blank">הורדה</a>
-            <hr>
-        `;
-        container.appendChild(div);
+    filesList.innerHTML = "";
+    data.forEach(f => {
+        filesList.innerHTML += `<p>${f.name} — <a href="${f.url}" target="_blank">פתח</a></p>`;
     });
 }
 
-// --- לוגיקת כניסה/הרשמה (מבוסס סיסמה קשיחה, דורש שינוי ל-Supabase Auth!) ---
+loadFiles();
 
-const signLogSave = document.getElementById("signLogSave");
-const saveButtonSign = document.getElementById("saveButtonSign");
-const signUp = document.getElementById("passwordInputSign");
-
-const saveButtonLog = document.getElementById("saveButtonLog");
-const logIn = document.getElementById("passwordInputLog");
-
-const result = document.getElementById("result");
-const showBoxSign = document.getElementById("showBoxSign");
-const showBoxLog = document.getElementById("showBoxLog");
-
-const overlay = document.getElementById("overlay");
-const signUpBox = document.getElementById("signUpBox");
-const logInBox = document.getElementById("logInBox");
-
-showBoxSign.addEventListener("click", () => {
-    signLogSave.style.display = "none";
-    overlay.style.display = "block";
-    signUpBox.style.display = "flex";
-});
-
-showBoxLog.addEventListener("click", () => {
-    signLogSave.style.display = "none";
-    overlay.style.display = "block";
-    logInBox.style.display = "flex";
-});
-
-let userPassword = "";
-
-saveButtonSign.addEventListener("click", function() {
-    userPassword = signUp.value.trim();
-    signLogSave.style.display = "block";
-    overlay.style.display = "none";
-    signUpBox.style.display = "none";
-});
-
-saveButtonLog.addEventListener("click", function() {
-    const signinValue = logIn.value.trim();
-    overlay.style.display = "none";
-    logInBox.style.display = "none";
-
-    if (signinValue === userPassword) {
-        signLogSave.style.display = "block";
-        signLogSave.textContent = "You are loged in";
-
-    } else {
-        signLogSave.style.display = "block";
-        signLogSave.textContent = "Wrong Username or Password";
-    }
-});
 
 
 
