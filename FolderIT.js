@@ -1,8 +1,9 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
 const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
-const supabaseClient = supabase.createClient(
-  supabaseUrl,
-  supabaseKey
+// *** התיקון הקריטי: שימוש ב-window.supabase לפתרון שגיאת ה-ReferenceError ***
+const supabaseClient = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
 );
 
 async function uploadFile() {
@@ -18,8 +19,8 @@ async function uploadFile() {
         .upload(filePath, file);
 
     if (error) {
-        console.error(error);
-        alert("שגיאה בהעלאה");
+        console.error("שגיאת העלאה ל-Storage:", error);
+        alert("שגיאה בהעלאה. בדוק את ה-Policies ב-Storage.");
         return;
     }
 
@@ -37,14 +38,16 @@ async function uploadFile() {
         });
 
     if (insertError) {
-        console.error(insertError);
-        alert("שגיאה בשמירת הרשומה");
+        console.error("שגיאת שמירת רשומה ב-Database:", insertError);
+        alert("שגיאה בשמירת הרשומה. בדוק את ה-RLS Policies בטבלה FolderD.");
         return;
     }
 
-    alert("הקובץ הועלה ונשמר!");
+    alert("הקובץ הועלה ונשמר בהצלחה!");
     loadFiles();
 }
+
+// קריאה ראשונית לטעינת הקבצים עם טעינת הדף
 loadFiles();
     
 async function loadFiles() {
@@ -54,7 +57,7 @@ async function loadFiles() {
         .order("id", { ascending: false });
 
     if (error) {
-        console.error(error);
+        console.error("שגיאת טעינת קבצים:", error);
         return;
     }
 
@@ -95,6 +98,8 @@ async function searchFiles() {
         container.appendChild(div);
     });
 }
+
+// --- לוגיקת כניסה/הרשמה (מבוסס סיסמה קשיחה, דורש שינוי ל-Supabase Auth!) ---
 
 const signLogSave = document.getElementById("signLogSave");
 const saveButtonSign = document.getElementById("saveButtonSign");
