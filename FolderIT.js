@@ -27,7 +27,7 @@ async function uploadFile() {
 
     // שמירת הרשומה בטבלה
     const { error: insertError } = await supabase
-        .from("files")
+        .from("FolderD")
         .insert({
             name: file.name,
             url: publicUrl.publicUrl
@@ -46,7 +46,7 @@ loadFiles();
     
 async function loadFiles() {
     const { data, error } = await supabase
-        .from("files")
+        .from("FolderD")
         .select("*")
         .order("id", { ascending: false });
 
@@ -73,7 +73,7 @@ async function searchFiles() {
     const text = document.getElementById("search").value;
 
     const { data, error } = await supabase
-        .from("files")
+        .from("FolderD")
         .select("*")
         .ilike("name", `%${text}%`);
 
@@ -132,6 +132,7 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
 
 
 
