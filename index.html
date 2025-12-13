@@ -1,44 +1,88 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="FolderIT_Style.css">
-        <title>FolderIT</title>
-    </head>
-    <body>
-        <header class="header"> 
-        <div class="header-spacer"></div>
-
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת העלאת קבצים</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* CSS מינימלי להצגת החלונות המודאליים כפי שמתואר ב-JS */
+        body { margin: 20px; font-family: Arial, sans-serif; }
+        .container { max-width: 800px; margin: 0 auto; }
         
+        /* סגנונות למערכת הכניסה/הרשמה המודאלית */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none; /* מוסתר כברירת מחדל */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* מוסתר כברירת מחדל */
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+        .modal-box input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-box button { padding: 10px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
 
-            <div class="header-actions">
-                <button id="showBoxSign" class="signAndLog">Sign up</button>
-                <button id="showBoxLog" class="signAndLog">Log in</button>
-            </div>
-        </header>
+    <div class="container">
+        <h2>מערכת ניהול והעלאת קבצים</h2>
+        <div id="result"></div> <h3>כניסה והרשמה</h3>
+        <button id="showBoxSign">הרשמה</button>
+        <button id="showBoxLog">כניסה</button>
+        <p id="signLogSave" style="display: block; font-weight: bold; margin-top: 10px;">Sign up / Log in</p>
         
+        <hr>
+
+        <h3>העלאת קובץ חדש</h3>
         <input type="file" id="fileInput">
-        <button onclick="uploadFile()">העלה</button>
-        <div id="filesList"></div>
-        <input type="text" id="search" placeholder="חפש..." oninput="searchFiles()">
+        <button onclick="uploadFile()">העלה קובץ</button>
+        
+        <hr>
 
-        <p id="signLogSave">Conrugrulations you signed up</p>
-        <div id="signUpBox" class="signUpBox" style="display: none;">
-            <p>Sign up</p>
-            <input type="text" id="passwordInputSign" placeholder="Enter password">
-            <button id="saveButtonSign">save</button>
+        <h3>חיפוש קבצים</h3>
+        <input type="text" id="search" placeholder="חפש לפי שם קובץ...">
+        <button onclick="searchFiles()">חפש</button>
+
+        <hr>
+
+        <h3>רשימת הקבצים:</h3>
+        <div id="filesList">
+            טוען קבצים...
         </div>
 
-        <div id="logInBox" class="logInBox" style="display: none;">
-            <p>Log in</p>
-            <input type="text" id="passwordInputLog" placeholder="Enter password">
-            <button id="saveButtonLog">save</button>
+    </div>
+
+    <div id="overlay" style="display: none;">
+        
+        <div id="signUpBox" class="modal-box">
+            <h4>הרשמה (Sign Up)</h4>
+            <input type="password" id="passwordInputSign" placeholder="הכנס סיסמה">
+            <button id="saveButtonSign">שמור והרשם</button>
         </div>
 
-        <div id="overlay"></div>
-        <p id="result"></p>
+        <div id="logInBox" class="modal-box">
+            <h4>כניסה (Log In)</h4>
+            <input type="password" id="passwordInputLog" placeholder="הכנס סיסמה">
+            <button id="saveButtonLog">התחבר</button>
+        </div>
 
-        <script src="FolderIT.js"></script>
-    </body>
+    </div>
+
+    <script src="FolderIT.js"></script>
+
+</body>
 </html>
+
 
