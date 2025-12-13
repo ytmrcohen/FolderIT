@@ -11,7 +11,7 @@ async function uploadFile() {
 
     // העלאה ל-Bucket
     const { data, error } = await supabase.storage
-        .from("FolderD")
+        .from("Folders")
         .upload(filePath, file);
 
     if (error) {
@@ -22,7 +22,7 @@ async function uploadFile() {
 
     // קבלת URL ציבורי
     const { data: publicUrl } = supabase.storage
-        .from("FolderD")
+        .from("Folders")
         .getPublicUrl(filePath);
 
     // שמירת הרשומה בטבלה
@@ -132,6 +132,7 @@ Confirmlogin.addEventListener("click", function() {
     }
 
 });
+
 
 
 
