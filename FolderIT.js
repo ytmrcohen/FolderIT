@@ -93,45 +93,57 @@ async function searchFiles() {
     });
 }
 
- 
-const Confirmsignup = document.getElementById("savebutton");
-const signup = document.getElementById("passwordinput");
+const signLogSave = document.getElementById("signLogSave");
+const saveButtonSign = document.getElementById("saveButtonSign");
+const signUp = document.getElementById("passwordInputSign");
 
-const Confirmlogin = document.getElementById("savebuttonlog");
-const signin = document.getElementById("passwordinputlog");
+const saveButtonLog = document.getElementById("saveButtonLog");
+const logIn = document.getElementById("passwordInputLog");
 
 const result = document.getElementById("result");
-const Show = document.getElementById("showbox");
-const Showlog = document.getElementById("showboxlog");
+const showBoxSign = document.getElementById("showBoxSign");
+const showBoxLog = document.getElementById("showBoxLog");
 
- 
-Show.addEventListener("click", () => {
-    signupbox.style.display = "flex";
-});
-Showlog.addEventListener("click", () => {
-    signinbox.style.display = "flex";
+const overlay = document.getElementById("overlay");
+const signUpBox = document.getElementById("signUpBox");
+const logInBox = document.getElementById("logInBox");
+
+showBoxSign.addEventListener("click", () => {
+    signLogSave.style.display = "none";
+    overlay.style.display = "block";
+    signUpBox.style.display = "flex";
 });
 
+showBoxLog.addEventListener("click", () => {
+    signLogSave.style.display = "none";
+    overlay.style.display = "block";
+    logInBox.style.display = "flex";
+});
 
 let userPassword = "";
 
-Confirmsignup.addEventListener("click", function() {
-    userPassword = signup.value.trim();
-    result.textContent = "Signup completed succesfully";
+saveButtonSign.addEventListener("click", function() {
+    userPassword = signUp.value.trim();
+    signLogSave.style.display = "block";
+    overlay.style.display = "none";
+    signUpBox.style.display = "none";
 });
 
+saveButtonLog.addEventListener("click", function() {
+    const signinValue = logIn.value.trim();
+    overlay.style.display = "none";
+    logInBox.style.display = "none";
 
-Confirmlogin.addEventListener("click", function() {
-    const signinValue = signin.value.trim();
+    if (signinValue === userPassword) {
+        signLogSave.style.display = "block";
+        signLogSave.textContent = "You are loged in";
 
-    if(signinValue == userPassword){
-        result.textContent = "WELCOM IN!"
-        window.location.href = "userpage.html";
-    }else{
-        result.textContent = "Wrong Username or Password";
+    } else {
+        signLogSave.style.display = "block";
+        signLogSave.textContent = "Wrong Username or Password";
     }
-
 });
+
 
 
 
