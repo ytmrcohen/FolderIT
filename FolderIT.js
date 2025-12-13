@@ -1,5 +1,5 @@
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
-const supabaseKey = "PASTE_YOUR_PUBLIC_KEY_HERE";
+const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
 
 const supabaseClient = window.supabase.createClient(
     supabaseUrl,
@@ -100,6 +100,7 @@ async function searchFiles() {
 }
 
 loadFiles();
+
 
 
 
