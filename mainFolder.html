@@ -1,40 +1,36 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="mainFolder.css">
-        <title>FolderIT</title>
-    </head>
-    <body>
-        <header class="header"> 
-        <div class="header-spacer"></div>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FolderIT</title>
 
-        <h1 class="logo"><img src="FolderITimageCopy.png" alt="FolderIT"></h1>
+    <link rel="stylesheet" href="style.css">
 
-            <div class="header-actions">
-                <button id="showBoxSign" class="signAndLog">Sign up</button>
-                <button id="showBoxLog" class="signAndLog">Log in</button>
-            </div>
-        </header>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
 
-        <p id="signLogSave">Conrugrulations you signed up</p>
-        <div id="signUpBox" class="signUpBox" style="display: none;">
-            <p id="boxP" class="boxP">Sign up</p>
-            <input type="text" id="passwordInputSign" placeholder="Enter password">
-            <button id="saveButtonSign">save</button>
-        </div>
+<header class="header">
+    <div class="header-spacer"></div>
+    <h1 class="logo">FolderIT</h1>
+</header>
 
-        <div id="logInBox" class="logInBox" style="display: none;">
-            <p class="boxP">Log in</p>
-            <input type="text" id="passwordInputLog" placeholder="Enter password">
-            <button id="saveButtonLog">save</button>
-        </div>
+<div class="container">
+    <h2>העלאת קבצים</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">העלה קובץ</button>
 
-        <div id="overlay"></div>
+    <hr>
 
-        <div id="loader" class="loader"></div>
+    <input type="text" id="search" placeholder="חיפוש לפי שם">
+    <button onclick="searchFiles()">חפש</button>
 
-        <script src="mainFolder.js"></script>
-    </body>
+    <h3>רשימת קבצים</h3>
+    <div id="filesList">טוען...</div>
+</div>
 
+<script src="FolderIT.js"></script>
+</body>
 </html>
