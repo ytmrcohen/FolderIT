@@ -34,29 +34,7 @@ async function uploadFile() {
         alert("שגיאה בהעלאת הקובץ");
         return;
     }
-    
-    const { data } = await supabaseClient
-        .from("FolderD")
-        .select("*")
-        .order("created_at", { ascending: false });
 
-    filesList.innerHTML = "";
-
-    data.forEach(f => {
-        const date = new Date(f.created_at).toLocaleString("he-IL");
-
-        filesList.innerHTML += `
-            <p>
-                ${f.name}
-                <br>
-                <small>הועלה בתאריך: ${date}</small>
-                <br>
-                <a href="${f.url}" target="_blank">פתח</a>
-                —
-                <button onclick="deleteFile(${f.id}, '${f.url}')">מחק</button>
-            </p>
-        `;
-    });
     // קבלת URL ציבורי
     const { data: urlData } = supabaseClient
         .storage
@@ -90,7 +68,7 @@ async function loadFiles() {
     const { data, error } = await supabaseClient
         .from("FolderD")
         .select("*")
-        .order("id", { ascending: false });
+        .order("created_at", { ascending: false });
 
     if (error) {
         console.error(error);
@@ -106,12 +84,14 @@ async function loadFiles() {
     filesList.innerHTML = "";
 
     data.forEach(file => {
-        const div = document.createElement("div");
+        const date = file.created_at
+            ? new Date(file.created_at).toLocaleString("he-IL")
+            : "לא זמין";
 
-        div.innerHTML = `
+        filesList.innerHTML += `
             <p>
-                ${file.name}
-                —
+                <strong>${file.name}</strong><br>
+                <small>הועלה בתאריך: ${date}</small><br>
                 <a href="${file.url}" target="_blank">פתח</a>
                 —
                 <button onclick="deleteFile(${file.id}, '${file.url}')">
@@ -119,8 +99,6 @@ async function loadFiles() {
                 </button>
             </p>
         `;
-
-        filesList.appendChild(div);
     });
 }
 
@@ -130,27 +108,31 @@ async function loadFiles() {
 async function searchFiles() {
     const searchInput = document.getElementById("search");
     const filesList = document.getElementById("filesList");
-
     const text = searchInput.value.trim();
 
     const { data, error } = await supabaseClient
         .from("FolderD")
         .select("*")
         .ilike("name", `%${text}%`)
-        .order("id", { ascending: false });
+        .order("created_at", { ascending: false });
 
     if (error) {
         console.error(error);
+        filesList.innerHTML = "שגיאה בחיפוש";
         return;
     }
 
     filesList.innerHTML = "";
 
     data.forEach(file => {
+        const date = file.created_at
+            ? new Date(file.created_at).toLocaleString("he-IL")
+            : "לא זמין";
+
         filesList.innerHTML += `
             <p>
-                ${file.name}
-                —
+                <strong>${file.name}</strong><br>
+                <small>הועלה בתאריך: ${date}</small><br>
                 <a href="${file.url}" target="_blank">פתח</a>
                 —
                 <button onclick="deleteFile(${file.id}, '${file.url}')">
@@ -165,10 +147,8 @@ async function searchFiles() {
 // Delete file (Storage + Table)
 // ==========================
 async function deleteFile(id, fileUrl) {
-    const confirmDelete = confirm("האם אתה בטוח שברצונך למחוק את הקובץ?");
-    if (!confirmDelete) return;
+    if (!confirm("האם למחוק את הקובץ?")) return;
 
-    // חילוץ הנתיב מתוך ה-URL
     const path = fileUrl.split("/Folders/")[1];
 
     // מחיקה מה-Storage
@@ -202,6 +182,7 @@ async function deleteFile(id, fileUrl) {
 // Initial load
 // ==========================
 loadFiles();
+
 
 
 
