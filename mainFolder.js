@@ -45,16 +45,15 @@ saveButtonLog.addEventListener("click", () => {
     const logInValue = logIn.value.trim();
 
     if (logInValue === userPassword && userPassword !== "") {
-        signLogSave.textContent = "You are logged in";
         signLogSave.style.display = "block";
         overlay.style.display = "none";
         logInBox.style.display = "none";
-        window.location.href = "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
+        signLogSave.textContent = "You are loged in";
+        window.location.href = "https://ytmrcohen.github.io/FolderIT/";
 
     } else if (logInValue === userPassword && userPassword === "") {
         signLogSave.style.display = "block";
         signLogSave.textContent = "No valid password";
-
     } else {
         signLogSave.style.display = "block";
         signLogSave.textContent = "Wrong Password";
