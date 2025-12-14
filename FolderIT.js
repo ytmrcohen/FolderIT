@@ -84,12 +84,10 @@ async function loadFiles() {
     filesList.innerHTML = "";
 
     data.forEach(file => {
-        const date = file.created_at
-            ? new Date(file.created_at).toLocaleString("he-IL")
-            : "לא זמין";
+        const date = new Date(file.created_at).toLocaleString("he-IL");
 
         filesList.innerHTML += `
-            <p>
+            <div style="margin-bottom:10px;">
                 <strong>${file.name}</strong><br>
                 <small>הועלה בתאריך: ${date}</small><br>
                 <a href="${file.url}" target="_blank">פתח</a>
@@ -97,10 +95,11 @@ async function loadFiles() {
                 <button onclick="deleteFile(${file.id}, '${file.url}')">
                     מחק
                 </button>
-            </p>
+            </div>
         `;
     });
 }
+
 
 // ==========================
 // Search files
@@ -182,6 +181,7 @@ async function deleteFile(id, fileUrl) {
 // Initial load
 // ==========================
 loadFiles();
+
 
 
 
