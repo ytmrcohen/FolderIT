@@ -147,24 +147,3 @@ body {
     text-align: center;
     font-size: 20px;
 }
-
-/* ===== cicle animation ===== */
-.loader {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 60px;
-    height: 60px;
-    margin: -30px 0 0 -30px; /* למרכז את העיגול */
-    border: 8px solid rgba(0, 0, 0, 0.1);
-    border-top: 8px solid #0f7a0f; /* צבע העיגול */
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    z-index: 100; /* מעל הכול */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
