@@ -49,13 +49,7 @@ if (logInValue === userPassword && userPassword !== "") {
     signLogSave.style.display = "block";
     overlay.style.display = "none";
     logInBox.style.display = "none";
-
-    loader.style.display = "block";
-
-    setTimeout(() => {
-        window.location.href =
-            "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
-    }, 400);
+        window.location.href = "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
 }
 
     } else if (logInValue === userPassword && userPassword === "") {
@@ -74,6 +68,7 @@ overlay.addEventListener("click", () => {
     signLogSave.textContent = "";
 
 });
+
 
 
 
