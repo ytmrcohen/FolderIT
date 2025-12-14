@@ -6,50 +6,6 @@ const supabaseClient = window.supabase.createClient(
     supabaseKey
 );
 
-const overlay = document.getElementById("overlay");
-const signUpBox = document.getElementById("signUpBox");
-const logInBox = document.getElementById("logInBox");
-const signLogSave = document.getElementById("signLogSave");
-
-let userPassword = "";
-
-// פתיחת חלונות
-showBoxSign.onclick = () => {
-    overlay.style.display = "flex";
-    signUpBox.style.display = "flex";
-};
-
-showBoxLog.onclick = () => {
-    overlay.style.display = "flex";
-    logInBox.style.display = "flex";
-};
-
-saveButtonSign.onclick = () => {
-    userPassword = passwordInputSign.value.trim();
-    overlay.style.display = "none";
-    signUpBox.style.display = "none";
-    signLogSave.textContent = "נרשמת בהצלחה";
-    signLogSave.style.display = "block";
-};
-
-saveButtonLog.onclick = () => {
-    overlay.style.display = "none";
-    logInBox.style.display = "none";
-
-    if (passwordInputLog.value === userPassword) {
-        signLogSave.textContent = "התחברת בהצלחה";
-    } else {
-        signLogSave.textContent = "סיסמה שגויה";
-    }
-    signLogSave.style.display = "block";
-};
-
-overlay.onclick = () => {
-    overlay.style.display = "none";
-    signUpBox.style.display = "none";
-    logInBox.style.display = "none";
-};
-
 async function uploadFile() {
     const file = fileInput.files[0];
     if (!file) return alert("בחר קובץ");
@@ -100,6 +56,7 @@ async function searchFiles() {
 }
 
 loadFiles();
+
 
 
 
