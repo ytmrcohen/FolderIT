@@ -34,7 +34,29 @@ async function uploadFile() {
         alert("שגיאה בהעלאת הקובץ");
         return;
     }
+    
+    const { data } = await supabaseClient
+        .from("FolderD")
+        .select("*")
+        .order("created_at", { ascending: false });
 
+    filesList.innerHTML = "";
+
+    data.forEach(f => {
+        const date = new Date(f.created_at).toLocaleString("he-IL");
+
+        filesList.innerHTML += `
+            <p>
+                ${f.name}
+                <br>
+                <small>הועלה בתאריך: ${date}</small>
+                <br>
+                <a href="${f.url}" target="_blank">פתח</a>
+                —
+                <button onclick="deleteFile(${f.id}, '${f.url}')">מחק</button>
+            </p>
+        `;
+    });
     // קבלת URL ציבורי
     const { data: urlData } = supabaseClient
         .storage
@@ -180,6 +202,7 @@ async function deleteFile(id, fileUrl) {
 // Initial load
 // ==========================
 loadFiles();
+
 
 
 
