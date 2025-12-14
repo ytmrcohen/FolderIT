@@ -49,7 +49,7 @@ saveButtonLog.addEventListener("click", () => {
         overlay.style.display = "none";
         logInBox.style.display = "none";
         signLogSave.textContent = "You are loged in";
-        window.location.href = "https://ytmrcohen.github.io/FolderIT/";
+        window.location.href = "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
 
     } else if (logInValue === userPassword && userPassword === "") {
         signLogSave.style.display = "block";
@@ -66,3 +66,4 @@ overlay.addEventListener("click", () => {
     logInBox.style.display = "none";
     signLogSave.textContent = "";
 });
+
