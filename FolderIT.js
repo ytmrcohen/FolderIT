@@ -1,118 +1,186 @@
+// ==========================
+// Supabase config
+// ==========================
 const supabaseUrl = "https://owdtllwewggvaleevyvy.supabase.co";
 const supabaseKey = "sb_publishable_nLFX-3uJT7Q7-GNvfzBtYw_iOkrWX6R";
 
-const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
+const supabaseClient = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
 );
 
-// חיבור לאלמנטים ב־HTML
-const fileInput = document.getElementById("fileInput");
-const filesList = document.getElementById("filesList");
-const searchInput = document.getElementById("search");
-
-// העלאת קובץ
+// ==========================
+// Upload file
+// ==========================
 async function uploadFile() {
-  const file = fileInput.files[0];
-  if (!file) {
-    alert("בחר קובץ");
-    return;
-  }
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
 
-  const filePath = `${Date.now()}_${file.name}`;
+    if (!file) {
+        alert("בחר קובץ");
+        return;
+    }
 
-  // 1. העלאה ל־Storage
-  const { error: uploadError } = await supabase.storage
-    .from("Folders")
-    .upload(filePath, file, {
-      contentType: file.type
-    });
+    const filePath = `${Date.now()}_${file.name}`;
 
-  if (uploadError) {
-    console.error(uploadError);
-    alert("שגיאה בהעלאה ל-Storage");
-    return;
-  }
+    // העלאה ל-Storage
+    const { error: uploadError } = await supabaseClient
+        .storage
+        .from("Folders")
+        .upload(filePath, file);
 
-  // 2. קבלת URL ציבורי
-  const { data } = supabase.storage
-    .from("Folders")
-    .getPublicUrl(filePath);
+    if (uploadError) {
+        console.error(uploadError);
+        alert("שגיאה בהעלאת הקובץ");
+        return;
+    }
 
-  // 3. שמירה בטבלה
-  const { error: insertError } = await supabase
-    .from("FolderD")
-    .insert({
-      name: file.name,
-      url: data.publicUrl
-    });
+    // קבלת URL ציבורי
+    const { data: urlData } = supabaseClient
+        .storage
+        .from("Folders")
+        .getPublicUrl(filePath);
 
-  if (insertError) {
-    console.error(insertError);
-    alert("שגיאה בשמירת הנתונים בטבלה");
-    return;
-  }
+    // שמירה בטבלה
+    const { error: insertError } = await supabaseClient
+        .from("FolderD")
+        .insert({
+            name: file.name,
+            url: urlData.publicUrl
+        });
 
-  // 4. רענון הרשימה
-  loadFiles();
+    if (insertError) {
+        console.error(insertError);
+        alert("שגיאה בשמירת נתוני הקובץ");
+        return;
+    }
+
+    fileInput.value = "";
+    loadFiles();
 }
 
-// טעינת קבצים מהטבלה
+// ==========================
+// Load files list
+// ==========================
 async function loadFiles() {
-  const { data, error } = await supabase
-    .from("FolderD")
-    .select("*")
-    .order("id", { ascending: false });
+    const filesList = document.getElementById("filesList");
 
-  if (error) {
-    console.error(error);
-    filesList.innerHTML = "שגיאה בטעינת קבצים";
-    return;
-  }
+    const { data, error } = await supabaseClient
+        .from("FolderD")
+        .select("*")
+        .order("id", { ascending: false });
 
-  filesList.innerHTML = "";
+    if (error) {
+        console.error(error);
+        filesList.innerHTML = "שגיאה בטעינת קבצים";
+        return;
+    }
 
-  if (data.length === 0) {
-    filesList.innerHTML = "אין קבצים";
-    return;
-  }
+    if (!data.length) {
+        filesList.innerHTML = "אין קבצים";
+        return;
+    }
 
-  data.forEach(file => {
-    const p = document.createElement("p");
-    p.innerHTML = `
-      ${file.name} —
-      <a href="${file.url}" target="_blank">פתח</a>
-    `;
-    filesList.appendChild(p);
-  });
+    filesList.innerHTML = "";
+
+    data.forEach(file => {
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+            <p>
+                ${file.name}
+                —
+                <a href="${file.url}" target="_blank">פתח</a>
+                —
+                <button onclick="deleteFile(${file.id}, '${file.url}')">
+                    מחק
+                </button>
+            </p>
+        `;
+
+        filesList.appendChild(div);
+    });
 }
 
-// חיפוש
+// ==========================
+// Search files
+// ==========================
 async function searchFiles() {
-  const text = searchInput.value;
+    const searchInput = document.getElementById("search");
+    const filesList = document.getElementById("filesList");
 
-  const { data, error } = await supabase
-    .from("FolderD")
-    .select("*")
-    .ilike("name", `%${text}%`);
+    const text = searchInput.value.trim();
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+    const { data, error } = await supabaseClient
+        .from("FolderD")
+        .select("*")
+        .ilike("name", `%${text}%`)
+        .order("id", { ascending: false });
 
-  filesList.innerHTML = "";
+    if (error) {
+        console.error(error);
+        return;
+    }
 
-  data.forEach(file => {
-    filesList.innerHTML += `
-      <p>${file.name} —
-      <a href="${file.url}" target="_blank">פתח</a></p>
-    `;
-  });
+    filesList.innerHTML = "";
+
+    data.forEach(file => {
+        filesList.innerHTML += `
+            <p>
+                ${file.name}
+                —
+                <a href="${file.url}" target="_blank">פתח</a>
+                —
+                <button onclick="deleteFile(${file.id}, '${file.url}')">
+                    מחק
+                </button>
+            </p>
+        `;
+    });
 }
 
-// טעינה אוטומטית כשהדף עולה
+// ==========================
+// Delete file (Storage + Table)
+// ==========================
+async function deleteFile(id, fileUrl) {
+    const confirmDelete = confirm("האם אתה בטוח שברצונך למחוק את הקובץ?");
+    if (!confirmDelete) return;
+
+    // חילוץ הנתיב מתוך ה-URL
+    const path = fileUrl.split("/Folders/")[1];
+
+    // מחיקה מה-Storage
+    const { error: storageError } = await supabaseClient
+        .storage
+        .from("Folders")
+        .remove([path]);
+
+    if (storageError) {
+        console.error(storageError);
+        alert("שגיאה במחיקת הקובץ מהאחסון");
+        return;
+    }
+
+    // מחיקה מהטבלה
+    const { error: dbError } = await supabaseClient
+        .from("FolderD")
+        .delete()
+        .eq("id", id);
+
+    if (dbError) {
+        console.error(dbError);
+        alert("שגיאה במחיקת הרשומה");
+        return;
+    }
+
+    loadFiles();
+}
+
+// ==========================
+// Initial load
+// ==========================
 loadFiles();
+
 
 
 
