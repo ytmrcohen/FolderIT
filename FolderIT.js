@@ -12,6 +12,12 @@ const supabaseClient = window.supabase.createClient(
 // ==========================
 // Upload file
 // ==========================
+
+function safeFileName(originalName) {
+    const ext = originalName.split('.').pop();
+    return `${Date.now()}_${crypto.randomUUID()}.${ext}`;
+}
+
 async function uploadFile() {
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
@@ -21,43 +27,45 @@ async function uploadFile() {
         return;
     }
 
-    const filePath = `${Date.now()}_${file.name}`;
+    // שם בטוח ל־Storage (אנגלית בלבד)
+    const storagePath = safeFileName(file.name);
 
-    // העלאה ל-Storage
+    // העלאה ל־Storage
     const { error: uploadError } = await supabaseClient
         .storage
         .from("Folders")
-        .upload(filePath, file);
+        .upload(storagePath, file);
 
     if (uploadError) {
         console.error(uploadError);
-        alert("שגיאה בהעלאת הקובץ");
+        alert("שגיאה בהעלאה");
         return;
     }
 
-    // קבלת URL ציבורי
+    // URL ציבורי
     const { data: urlData } = supabaseClient
         .storage
         .from("Folders")
-        .getPublicUrl(filePath);
+        .getPublicUrl(storagePath);
 
-    // שמירה בטבלה
+    // שמירה בטבלה — השם המקורי בעברית
     const { error: insertError } = await supabaseClient
         .from("FolderD")
         .insert({
-            name: file.name,
-            url: urlData.publicUrl
+            name: file.name,          // עברית ✔
+            url: urlData.publicUrl    // Storage ✔
         });
 
     if (insertError) {
         console.error(insertError);
-        alert("שגיאה בשמירת נתוני הקובץ");
+        alert("שגיאה בשמירת הנתונים");
         return;
     }
 
     fileInput.value = "";
     loadFiles();
 }
+
 
 // ==========================
 // Load files list
@@ -181,6 +189,7 @@ async function deleteFile(id, fileUrl) {
 // Initial load
 // ==========================
 loadFiles();
+
 
 
 
