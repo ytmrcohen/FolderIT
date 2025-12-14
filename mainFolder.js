@@ -44,14 +44,19 @@ saveButtonSign.addEventListener("click", () => {
 saveButtonLog.addEventListener("click", () => {
     const logInValue = logIn.value.trim();
 
-    if (logInValue === userPassword && userPassword !== "") {
-        signLogSave.style.display = "block";
-        overlay.style.display = "none";
-        logInBox.style.display = "none";
-        signLogSave.textContent = "You are loged in";
-        window.location.href = "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
-        loader.style.display = "block";
-    
+if (logInValue === userPassword && userPassword !== "") {
+    signLogSave.textContent = "You are logged in";
+    signLogSave.style.display = "block";
+    overlay.style.display = "none";
+    logInBox.style.display = "none";
+
+    loader.style.display = "block";
+
+    setTimeout(() => {
+        window.location.href =
+            "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
+    }, 400);
+}
 
     } else if (logInValue === userPassword && userPassword === "") {
         signLogSave.style.display = "block";
@@ -69,6 +74,7 @@ overlay.addEventListener("click", () => {
     signLogSave.textContent = "";
 
 });
+
 
 
 
