@@ -49,7 +49,7 @@ saveButtonLog.addEventListener("click", () => {
         overlay.style.display = "none";
         logInBox.style.display = "none";
         signLogSave.textContent = "You are loged in";
-        window.location.href = "FolderIT/mainFolder.html";
+        window.location.href = "https://ytmrcohen.github.io/FolderIT/mainFolder.html";
         loader.style.display = "block";
     
 
@@ -69,6 +69,7 @@ overlay.addEventListener("click", () => {
     signLogSave.textContent = "";
 
 });
+
 
 
 
